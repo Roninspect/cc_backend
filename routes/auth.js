@@ -87,7 +87,14 @@ authRouter.post('/tokenIsValid', async (req, res) => {
 
 //* get user data
 authRouter.get('/getUserData', auth, async (req, res) => {
-  const user = await User.findById(req.user);
+  const user = await User.findById(req.user)
+    .populate({
+      path: 'cart',
+      populate: {
+        path: 'instructor',
+      },
+    })
+    .exec();
   res.json({ ...user._doc, token: req.token });
 });
 

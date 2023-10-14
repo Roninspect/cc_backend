@@ -1,28 +1,28 @@
 const mongoose = require('mongoose');
 
-const instructorSchema = mongoose.Schema({
-  instructorName: {
+const adminSchema = new mongoose.Schema({
+  name: {
     required: true,
     type: String,
     trim: true,
   },
-  profile: {
+  email: {
     required: true,
     type: String,
     trim: true,
   },
-  description: {
+  password: {
     required: true,
     type: String,
     trim: true,
   },
-  worksAt: {
+  Access: {
     required: true,
     type: String,
     trim: true,
   },
 });
 
-const Instructor = mongoose.model('Instructor', instructorSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
-module.exports = Instructor;
+module.exports = Admin;

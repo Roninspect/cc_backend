@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Instructor = require('../models/instructor');
 
 const contentSchema = new mongoose.Schema({
   title: {
@@ -42,6 +43,12 @@ const courseSchema = mongoose.Schema({
     trim: true,
   },
 
+  price: {
+    required: true,
+    type: Number,
+    trim: true,
+  },
+
   thumbnail: {
     required: true,
     type: String,
@@ -63,6 +70,12 @@ const courseSchema = mongoose.Schema({
     required: true,
     type: Boolean,
     default: true,
+  },
+
+  isFeatured: {
+    required: true,
+    type: Boolean,
+    default: false,
   },
 
   instructor: {
