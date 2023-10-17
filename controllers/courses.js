@@ -97,10 +97,42 @@ const RemoveFromCart = async (req, res) => {
   }
 };
 
+const searchCourseByTitle = async (req, res) => {
+  try {
+    const query = req.params.query;
+
+    const result = await Course.aggregate([
+      {
+        $search: {
+          index: "titleSearch",
+          text: {
+            query: query,
+            path: "title",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "instructors", // Assuming "instructors" is the name of the Instructor collection
+          localField: "instructor", // Field from the Course collection
+          foreignField: "_id", // Field from the Instructor collection
+          as: "instructor", // Output field containing the joined data
+        },
+      },
+      // Optionally, you can add more stages based on your requirements
+    ]);
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getAllCourses,
   getSingleCourses,
   getFeaturedCourse,
   addToCart,
   RemoveFromCart,
+  searchCourseByTitle,
 };

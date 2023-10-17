@@ -6,6 +6,7 @@ const {
   getFeaturedCourse,
   addToCart,
   RemoveFromCart,
+  searchCourseByTitle,
 } = require('../controllers/courses');
 
 const courseRouter = express.Router();
@@ -20,5 +21,7 @@ courseRouter.get('/:id', getSingleCourses);
 
 courseRouter.post('/add-to-cart/:courseId', addToCart);
 courseRouter.post('/remove-from-cart/:courseId', RemoveFromCart);
+
+courseRouter.get('/search/:query',searchCourseByTitle);
 
 module.exports = courseRouter;
