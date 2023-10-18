@@ -113,10 +113,20 @@ const searchCourseByTitle = async (req, res) => {
       },
       {
         $lookup: {
-          from: "instructors", // Assuming "instructors" is the name of the Instructor collection
-          localField: "instructor", // Field from the Course collection
-          foreignField: "_id", // Field from the Instructor collection
-          as: "instructor", // Output field containing the joined data
+          from: "instructors",
+          localField: "instructor",
+          foreignField: "_id",
+          as: "instructor",
+        },
+      },
+      {
+        $addFields: {
+          instructor: { $arrayElemAt: ["$instructorData", 0] },
+        },
+      },
+      {
+        $project: {
+          instructorData: 0, // Exclude the original array from the output
         },
       },
       // Optionally, you can add more stages based on your requirements
