@@ -97,6 +97,8 @@ const RemoveFromCart = async (req, res) => {
   }
 };
 
+
+
 const searchCourseByTitle = async (req, res) => {
   try {
     const query = req.params.query;
@@ -121,7 +123,7 @@ const searchCourseByTitle = async (req, res) => {
       },
       {
         $addFields: {
-          instructor: { $arrayElemAt: ["$instructorData", 0] },
+          instructor: { $arrayElemAt: ["$instructor", 0] },
         },
       },
       {
