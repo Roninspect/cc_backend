@@ -110,6 +110,7 @@ const searchCourseByTitle = async (req, res) => {
           text: {
             query: query,
             path: "title",
+            fuzzy: {},
           },
         },
       },
