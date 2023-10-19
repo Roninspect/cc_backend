@@ -16,6 +16,7 @@ const getAllCourses = async (req, res) => {
 const getSingleCourses = async (req, res) => {
   try {
     var id = req.params.id;
+    console.log(id);
     const course = await Course.findById(id);
     res.status(200).json(course);
   } catch (error) {
@@ -98,46 +99,57 @@ const RemoveFromCart = async (req, res) => {
 };
 
 
-
 const searchCourseByTitle = async (req, res) => {
   try {
     const query = req.params.query;
+    const category = req.params.category; // Get the category from query parameters
 
-    const result = await Course.aggregate([
-      {
-        $search: {
-          index: "titleSearch",
-          text: {
-            query: query,
-            path: "title",
-            fuzzy: {},
-          },
+    const pipeline = [];
+
+    pipeline.push({
+      $search: {
+        index: "titleSearch",
+        text: {
+          query: query,
+          path: "title",
+          fuzzy: {},
         },
       },
-      {
-        $lookup: {
-          from: "instructors",
-          localField: "instructor",
-          foreignField: "_id",
-          as: "instructor",
-        },
+    });
+
+    // Add a $match stage if the category is provided
+    if (category) {
+      pipeline.push({
+        $match: { category: category },
+      });
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: "instructors",
+        localField: "instructor",
+        foreignField: "_id",
+        as: "instructor",
       },
-      {
-        $addFields: {
-          instructor: { $arrayElemAt: ["$instructor", 0] },
-        },
+    });
+
+    pipeline.push({
+      $addFields: {
+        instructor: { $arrayElemAt: ["$instructor", 0] },
       },
-      {
-        $project: {
-          instructorData: 0, // Exclude the original array from the output
-        },
+    });
+
+    pipeline.push({
+      $project: {
+        instructorData: 0, // Exclude the original array from the output
       },
-      // Optionally, you can add more stages based on your requirements
-    ]);
+    });
+
+    const result = await Course.aggregate(pipeline);
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error.message });
   }
 };
 

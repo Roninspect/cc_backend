@@ -22,6 +22,6 @@ courseRouter.get('/:id', getSingleCourses);
 courseRouter.post('/add-to-cart/:courseId', addToCart);
 courseRouter.post('/remove-from-cart/:courseId', RemoveFromCart);
 
-courseRouter.get('/search/:query',searchCourseByTitle);
+courseRouter.get('/testsearch/:query/:category?',searchCourseByTitle);
 
 module.exports = courseRouter;
