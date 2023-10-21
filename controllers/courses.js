@@ -146,7 +146,8 @@ const RemoveFromWishlist = async (req, res) => {
     const courseIndex = user.wishlist.indexOf(courseId);
 
     if (courseIndex === -1) {
-      return res.status(400).json({ error: 'Course not in the cart' });
+      console.log(user.wishlist);
+      return res.status(400).json({ error: 'Course not in the wishlist' });
     }
 
     // Remove the course from the user's cart
@@ -156,7 +157,7 @@ const RemoveFromWishlist = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: 'Course removed from the cart successfully' });
+      .json({ message: 'Course removed from the wishlist successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
