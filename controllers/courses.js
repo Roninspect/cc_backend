@@ -98,6 +98,70 @@ const RemoveFromCart = async (req, res) => {
   }
 };
 
+const addToWishlist = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const userId = req.user;
+
+    // Check if the user and course exist
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId);
+
+    if (!user || !course) {
+      return res.status(404).json({ error: 'User or Course not found' });
+    }
+
+    // Check if the course is already in the user's cart
+    if (user.wishlist.includes(courseId)) {
+      return res.status(400).json({ error: 'Course already in the cart' });
+    }
+
+    // Add the course to the user's cart
+    user.wishlist.push(courseId);
+
+    await user.save();
+
+    res.status(200).json({ message: 'Course added to the cart successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const RemoveFromWishlist = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const userId = req.user;
+
+    // Check if the user and course exist
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId);
+
+    if (!user || !course) {
+      return res.status(404).json({ error: 'User or Course not found' });
+    }
+
+    // Check if the course is in the user's cart
+    const courseIndex = user.wishlist.indexOf(courseId);
+
+    if (courseIndex === -1) {
+      return res.status(400).json({ error: 'Course not in the cart' });
+    }
+
+    // Remove the course from the user's cart
+    user.wishlist.splice(courseIndex, 1);
+
+    await user.save();
+
+    res
+      .status(200)
+      .json({ message: 'Course removed from the cart successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 const searchCourseByTitle = async (req, res) => {
   try {
@@ -159,5 +223,7 @@ module.exports = {
   getFeaturedCourse,
   addToCart,
   RemoveFromCart,
+  addToWishlist,
+  RemoveFromWishlist,
   searchCourseByTitle,
 };

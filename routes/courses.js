@@ -7,6 +7,8 @@ const {
   addToCart,
   RemoveFromCart,
   searchCourseByTitle,
+  addToWishlist,
+  RemoveFromWishlist,
 } = require('../controllers/courses');
 
 const courseRouter = express.Router();
@@ -21,7 +23,9 @@ courseRouter.get('/:id', getSingleCourses);
 
 courseRouter.post('/add-to-cart/:courseId', addToCart);
 courseRouter.post('/remove-from-cart/:courseId', RemoveFromCart);
+courseRouter.post('/add-to-wishlist/:courseId', addToWishlist);
+courseRouter.post('/remove-from-wishlist/:courseId', RemoveFromCart);
 
-courseRouter.get('/testsearch/:query/:category?',searchCourseByTitle);
+courseRouter.get('/testsearch/:query/:category?',RemoveFromWishlist);
 
 module.exports = courseRouter;

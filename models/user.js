@@ -48,10 +48,13 @@ const userSchema = mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Course',
-      quantity: {
-        type: Number,
-        required: true,
-      },
+    },
+  ],
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Course',
+      
     },
   ],
 });
