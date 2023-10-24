@@ -8,7 +8,8 @@ const {
   RemoveFromCart,
   searchCourseByTitle,
   addToWishlist,
-  RemoveFromWishlist
+  RemoveFromWishlist,
+  enrollingTheCourse,
 } = require('../controllers/courses');
 
 const courseRouter = express.Router();
@@ -25,7 +26,8 @@ courseRouter.post('/add-to-cart/:courseId', addToCart);
 courseRouter.post('/remove-from-cart/:courseId', RemoveFromCart);
 courseRouter.post('/add-to-wishlist/:courseId', addToWishlist);
 courseRouter.post('/remove-from-wishlist/:courseId', RemoveFromWishlist);
-
 courseRouter.get('/testsearch/:query/:category?',searchCourseByTitle);
+
+courseRouter.post('/enroll-course/:courseId', enrollingTheCourse);
 
 module.exports = courseRouter;

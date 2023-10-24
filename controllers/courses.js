@@ -164,6 +164,37 @@ const RemoveFromWishlist = async (req, res) => {
   }
 };
 
+const enrollingTheCourse = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const userId = req.user;
+
+    // Check if the user and course exist
+    const user = await User.findById(userId);
+    const course = await Course.findById(courseId);
+
+    if (!user || !course) {
+      return res.status(404).json({ error: 'User or Course not found' });
+    }
+
+    // Check if the course is already in the user's cart
+    if (user.enrolled.includes(courseId)) {
+      return res.status(400).json({ error: 'Course already in the bought' });
+    }
+
+    // Add the course to the user's cart
+    user.enrolled.push(courseId);
+
+    await user.save();
+
+    res.status(200).json({ message: 'Course enrolled successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 const searchCourseByTitle = async (req, res) => {
   try {
     const query = req.params.query;
@@ -227,4 +258,5 @@ module.exports = {
   addToWishlist,
   RemoveFromWishlist,
   searchCourseByTitle,
+  enrollingTheCourse,
 };

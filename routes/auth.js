@@ -99,7 +99,14 @@ authRouter.get('/getUserData', auth, async (req, res) => {
    populate: {
     path: 'instructor',
   },
-  }])
+  },
+  {
+   path: "enrolled", 
+   populate: {
+    path: 'instructor',
+  },
+  },
+],)
     .exec();
   res.json({ ...user._doc, token: req.token });
 });

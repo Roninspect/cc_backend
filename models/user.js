@@ -44,6 +44,14 @@ const userSchema = mongoose.Schema({
     default: false,
   },
 
+  enrolled: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Course',
+      
+    },
+  ],
+
   cart: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -57,6 +65,7 @@ const userSchema = mongoose.Schema({
       
     },
   ],
+  
 });
 
 const User = mongoose.model('User', userSchema);
