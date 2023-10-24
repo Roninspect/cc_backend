@@ -174,17 +174,27 @@ const enrollingTheCourse = async (req, res) => {
     const course = await Course.findById(courseId);
 
     if (!user || !course) {
-      return res.status(404).json({ error: 'User or Course not found' });
+      return res.status(404).json({ msg: 'User or Course not found' });
     }
 
-    // Check if the course is already in the user's cart
+    // Check if the course is already in the user's cart or enrolled list
     if (user.enrolled.includes(courseId)) {
-      return res.status(400).json({ error: 'Course already in the bought' });
+      return res.status(400).json({ msg: 'Course already enrolled' });
     }
 
-    // Add the course to the user's cart
+    // Add the course to the user's enrolled list
     user.enrolled.push(courseId);
 
+    // Remove the course from the wishlist if it exists
+    const wishlistIndex = user.wishlist.indexOf(courseId);
+    if (wishlistIndex !== -1) {
+      user.wishlist.splice(wishlistIndex, 1);
+    }
+
+    // Clear the user's cart
+    user.cart = [];
+
+    // Save the user
     await user.save();
 
     res.status(200).json({ message: 'Course enrolled successfully' });

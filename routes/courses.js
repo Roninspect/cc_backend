@@ -24,10 +24,18 @@ courseRouter.get('/:id', getSingleCourses);
 
 courseRouter.post('/add-to-cart/:courseId', addToCart);
 courseRouter.post('/remove-from-cart/:courseId', RemoveFromCart);
+courseRouter.post('/emptyCart', RemoveFromCart);
+
+
+
 courseRouter.post('/add-to-wishlist/:courseId', addToWishlist);
 courseRouter.post('/remove-from-wishlist/:courseId', RemoveFromWishlist);
-courseRouter.get('/testsearch/:query/:category?',searchCourseByTitle);
 
 courseRouter.post('/enroll-course/:courseId', enrollingTheCourse);
+
+
+courseRouter.get('/testsearch/:query/:category?',searchCourseByTitle);
+
+
 
 module.exports = courseRouter;
