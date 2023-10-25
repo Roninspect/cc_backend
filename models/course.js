@@ -15,6 +15,11 @@ const contentSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
+  isWatched: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const chapterSchema = new mongoose.Schema({
@@ -88,4 +93,4 @@ const courseSchema = mongoose.Schema({
 });
 
 const Course = mongoose.model('Course', courseSchema);
-module.exports = Course;
+module.exports = {Course,courseSchema};

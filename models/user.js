@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {courseSchema} = require('../models/course');
 
 const userSchema = mongoose.Schema({
   name: {
@@ -46,8 +47,7 @@ const userSchema = mongoose.Schema({
 
   enrolled: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Course',
+      course: courseSchema,
       
     },
   ],

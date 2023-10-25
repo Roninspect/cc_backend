@@ -1,4 +1,4 @@
-const Course = require('../models/course');
+const {Course,courseSchema} = require('../models/course');
 const User = require('../models/user');
 
 const getAllCourses = async (req, res) => {
@@ -183,7 +183,7 @@ const enrollingTheCourse = async (req, res) => {
     }
 
     // Add the course to the user's enrolled list
-    user.enrolled.push(courseId);
+    user.enrolled.push({course});
 
     // Remove the course from the wishlist if it exists
     const wishlistIndex = user.wishlist.indexOf(courseId);
@@ -194,15 +194,16 @@ const enrollingTheCourse = async (req, res) => {
     // Clear the user's cart
     user.cart = [];
 
-    // Save the user
+    // Save the user and the modified course
     await user.save();
 
-    res.status(200).json({ message: 'Course enrolled successfully' });
+    res.status(200).json( course);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 
 const searchCourseByTitle = async (req, res) => {
