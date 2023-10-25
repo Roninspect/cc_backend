@@ -197,7 +197,7 @@ const enrollingTheCourse = async (req, res) => {
     // Save the user and the modified course
     await user.save();
 
-    res.status(200).json( course);
+    res.status(200).json({course});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

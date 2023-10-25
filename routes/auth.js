@@ -101,11 +101,11 @@ authRouter.get('/getUserData', auth, async (req, res) => {
   },
   },
   {
-   path: "enrolled", 
-   populate: {
-    path: 'instructor',
-  },
-  },
+    path: 'enrolled.course', // Update the path to point to the course field
+    populate: {
+      path: 'instructor',
+    },
+  }
 ],)
     .exec();
   res.json({ ...user._doc, token: req.token });
