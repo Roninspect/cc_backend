@@ -17,7 +17,7 @@ const contentSchema = new mongoose.Schema({
   },
 
   isWatched: {
-    type: Boolean,
+    type: String,
     default: false,
   },
 });
